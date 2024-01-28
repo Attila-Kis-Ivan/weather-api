@@ -21,6 +21,14 @@ def about(station, date):
         "date": date,
         "temperature": temperature
     }
+    
+@app.route("/api/v1/<station>")
+def all_data(station):
+        filename = "/Users/attilakis-ivan/Desktop/Weather Datas/data_small/TG_STAID" + str(station).zfill(6) + ".txt"
+        df =pd.read_csv(filename, skiprows=20, parse_dates=["    DATE"])
+        result = df.to_dict(orient="records")
+        return result
+
 
 
 if __name__ == "__main__":
