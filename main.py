@@ -3,16 +3,17 @@ import pandas as pd
 
 app = Flask(__name__)
 
-
+stations = pd.read_csv("/Users/attilakis-ivan/Desktop/Weather Datas/data_small/stations.txt", skiprows=17)
+stations = stations[["STAID", "STANAME                                 "]]
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("home.html", data=stations.to_html())
 
 
 @app.route("/api/v1/<station>/<date>")
 def about(station, date):
-    filename = "/Users/attilakis-ivan/Desktop/data_small/TG_STAID" + str(station).zfill(6) + ".txt"
+    filename = "/Users/attilakis-ivan/Desktop/Weather Datas/data_small/TG_STAID" + str(station).zfill(6) + ".txt"
     df =pd.read_csv(filename, skiprows=20, parse_dates=["    DATE"])
     temperature = df.loc[df["    DATE"]== date]['   TG'].squeeze() / 10
     return {
